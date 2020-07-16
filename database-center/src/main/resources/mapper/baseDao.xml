@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.htfate.databasecenter.amain.mapper.IBaseDao">
+
+    <select id="getById" resultType="java.util.LinkedHashMap">
+        select
+        <foreach collection="list" item="it" separator=",">
+            ${it}
+        </foreach>
+        from ${tableName} where delflag=0 and id=#{id}
+    </select>
+    <select id="getTitle" resultType="com.htfate.databasecenter.amain.entity.vo.TitleInfoVO">
+        SELECT field_name field,field_remark title,form_type type,form_value value,form_default_value defaultValue,form_verify verify,form_placeholder placeholder FROM dofield WHERE delflag=0 AND table_id=#{tableId} ORDER BY display
+    </select>
+    <select id="getList" resultType="java.util.LinkedHashMap">
+        ${sql}
+    </select>
+    <select id="getTableField" resultType="java.lang.String">
+        SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE table_name=#{tableName}
+    </select>
+    <select id="getByUsername" resultType="java.util.LinkedHashMap">
+        select * from mei_user where delflag=0 and username=#{username}
+    </select>
+
+    <!-- 删除 -->
+    <update id="delByIds">
+        UPDATE #{tableName} delflag = 1 WHERE ID IN
+        <foreach collection="ids.split(',')" item="it" open="(" separator="," close=")">
+            #{it}
+        </foreach>
+    </update>
+
+</mapper>

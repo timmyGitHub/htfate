@@ -1,0 +1,35 @@
+custom:
+  db-url: jdbc:mysql://localhost:3306/htfate?characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+  redirect-basic: http://localhost:52001
+  redirect-login-url: ${custom.redirect-basic}/page/pub/login
+  redirect-process-login-url: ${custom.redirect-basic}/oauth2/login
+  redirect-grant-url: ${custom.redirect-basic}/page/pub/grant
+  page-url: /page
+  resource-url: http://localhost:52003
+  resource-zuul-url: ${custom.redirect-basic}/page
+  isZuul: true
+server:
+  port: 52005
+spring:
+  application:
+    name: oauth2
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: ${custom.db-url}
+    username: root_htfate
+    password: root_htfate
+    url: ${custom.db-url}
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  freemarker:
+    cache: false
+    expose-spring-macro-helpers: false
+    suffix: .ftl

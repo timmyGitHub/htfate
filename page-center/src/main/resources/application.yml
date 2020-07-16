@@ -1,0 +1,13 @@
+custom:
+  eureka-center-url: http://localhost:52000/eureka
+  oauth2-host: localhost:52005
+  use-zuul: true # 使用网关的话设置为 true
+spring:
+  freemarker:
+    cache: false
+    expose-spring-macro-helpers: false
+    suffix: .ftl
+  application:
+    name: page
+server:
+  port: 52003

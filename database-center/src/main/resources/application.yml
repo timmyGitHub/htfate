@@ -1,0 +1,40 @@
+custom:
+  authorize-ignore-url: /**
+  db-url: jdbc:mysql://localhost:3306/htfate?characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=GMT%2B8
+  # 创建数据库时，日期类型判断
+  DATE_TYPE: date;timestamp
+server:
+  port: 52011
+spring:
+  application:
+    name: database
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root_htfate
+    password: root_htfate
+    url: ${custom.db-url}
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  freemarker:
+    cache: false
+    expose-spring-macro-helpers: false
+    suffix: .ftl
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
+logging:
+  level:
+    cn.jay.repository: trace
+  config: classpath:macdev-log4j2.xml
+ribbon:
+  ReadTimeout: 30000
+

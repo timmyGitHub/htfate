@@ -1,0 +1,70 @@
+custom:
+  oauth2-host: localhost:52005
+server:
+  port: 52001
+eureka:
+  client:
+    service-url:
+      defaultZone: ${custom.eureka-center-url}
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        #        认证中心
+        - id: oauth2_route
+          uri: lb://oauth2
+          predicates:
+            - Path=/oauth2/**
+          filters:
+            - StripPrefix=1
+#        用户中心
+        - id: user_route
+          uri: lb://user
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
+        #        上传
+        - id: upload_route
+          uri: lb://upload
+          predicates:
+            - Path=/upload/**
+          filters:
+            - StripPrefix=1
+        #         文本
+        - id: text_route
+          uri: lb://text
+          predicates:
+            - Path=/text/**
+          filters:
+            - StripPrefix=1
+        #        模版中心
+        - id: database_route
+          uri: lb://database
+          predicates:
+            - Path=/database/**
+          filters:
+            - StripPrefix=1
+        #         页面
+        - id: page_route
+          uri: lb://page
+          predicates:
+            - Path=/page/**
+          filters:
+            - StripPrefix=1
+        #         app
+        - id: app_route
+          uri: lb://app
+          predicates:
+            - Path=/app/**
+          filters:
+            - StripPrefix=1
+      httpclient:
+        response-timeout: 60000
+
+logging:
+  level:
+    cn.jay.repository: trace
+  config: classpath:windev-log4j2.xml

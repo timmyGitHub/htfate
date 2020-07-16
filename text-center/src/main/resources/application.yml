@@ -1,0 +1,11 @@
+custom:
+  eureka-center-url: http://localhost:52000/eureka
+server:
+  port: 52008
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: ${custom.eureka-center-url}
+spring:
+  application:
+    name: text

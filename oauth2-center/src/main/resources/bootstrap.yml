@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true
+        fail-fast: false
+      host: 127.0.0.1
+      port: 8500

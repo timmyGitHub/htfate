@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.htfate.databasecenter.amain.mapper.TableInfoDao">
+    <resultMap id="BaseResultMap" type="com.htfate.databasecenter.amain.entity.po.TableInfo">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <id column="UUID" property="uuid" jdbcType="VARCHAR"/>
+        <result column="TABLE_NAME" property="tableName" jdbcType="VARCHAR"/>
+        <result column="TABLE_REMARK" property="tableRemark" jdbcType="VARCHAR"/>
+        <result column="TABLE_TYPE" property="tableType" jdbcType="VARCHAR"/>
+        <result column="CLAZZ_NAME" property="clazzName" jdbcType="VARCHAR"/>
+        <result column="DB_PARENT_ID" property="dbParentId" jdbcType="BIGINT"/>
+        <result column="PARENT_ID" property="parentId" jdbcType="BIGINT"/>
+        <result column="DISPLAY" property="display" jdbcType="BIGINT"/>
+        <result column="DB_FLAG" property="dbFlag" jdbcType="INTEGER"/>
+        <result column="CODE_FLAG" property="codeFlag" jdbcType="INTEGER"/>
+        <result column="DELFLAG" property="delflag" jdbcType="INTEGER"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="CREATE_PERSON" property="createPerson" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_PERSON" property="updatePerson" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- list查询 -->
+    <select id="getList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM table_info
+        <include refid="fieldWhere"/>
+        ORDER BY display
+        <if test="pageIndex != null and pageSize != null">
+            LIMIT #{pageIndex},#{pageSize}
+        </if>
+    </select>
+
+    <!--管理员 list查询 -->
+    <select id="getAdminList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM table_info
+        <include refid="adminFieldWhere"/>
+        ORDER BY display
+        <if test="pageIndex != null and pageSize != null">
+            LIMIT #{pageIndex},#{pageSize}
+        </if>
+    </select>
+
+    <!-- list 模糊查询 -->
+    <select id="getListLike" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM table_info
+        <include refid="likeWhere"/>
+        ORDER BY display
+        <if test="pageIndex != null and pageSize != null">
+            LIMIT #{pageIndex},#{pageSize}
+        </if>
+    </select>
+
+    <!--管理员 list 模糊查询 -->
+    <select id="getAdminListLike" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT * FROM table_info
+        <include refid="adminLikeWhere"/>
+        ORDER BY display
+        <if test="pageIndex != null and pageSize != null">
+            LIMIT #{pageIndex},#{pageSize}
+        </if>
+    </select>
+
+    <!-- 计数 -->
+    <select id="getCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(ID) as cont FROM table_info
+        <include refid="fieldWhere"/>
+    </select>
+
+    <!--管理员 计数 -->
+    <select id="getAdminCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(ID) as cont FROM table_info
+        <include refid="adminFieldWhere"/>
+    </select>
+
+    <!-- 模糊计数 -->
+    <select id="getCountLike" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(ID) as cont FROM table_info
+        <include refid="likeWhere"/>
+    </select>
+
+    <!-- 模糊计数 -->
+    <select id="getAdminCountLike" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT COUNT(ID) as cont FROM table_info
+        <include refid="adminLikeWhere"/>
+    </select>
+
+    <!-- 新增 -->
+    <insert id="save" parameterType="com.htfate.databasecenter.amain.entity.po.TableInfo">
+        INSERT INTO table_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                ID,
+            </if>
+            <if test="uuid != null and uuid != ''">
+                UUID,
+            </if>
+            <if test="tableName != null and tableName != ''">
+                TABLE_NAME,
+            </if>
+            <if test="tableRemark != null and tableRemark != ''">
+                TABLE_REMARK,
+            </if>
+            <if test="tableType != null and tableType != ''">
+                TABLE_TYPE,
+            </if>
+            <if test="clazzName != null and clazzName != ''">
+                CLAZZ_NAME,
+            </if>
+            <if test="dbParentId != null and dbParentId != ''">
+                DB_PARENT_ID,
+            </if>
+            <if test="parentId != null and parentId != ''">
+                PARENT_ID,
+            </if>
+            <if test="display != null and display != ''">
+                DISPLAY,
+            </if>
+            <if test="dbFlag != null and dbFlag != ''">
+                DB_FLAG,
+            </if>
+            <if test="codeFlag != null and codeFlag != ''">
+                CODE_FLAG,
+            </if>
+            <if test="delflag != null and delflag != ''">
+                DELFLAG,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="createPerson != null and createPerson != ''">
+                CREATE_PERSON,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+            <if test="updatePerson != null and updatePerson != ''">
+                UPDATE_PERSON
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="id != null and id != ''">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="uuid != null and uuid != ''">
+                #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="tableName != null and tableName != ''">
+                #{tableName,jdbcType=VARCHAR},
+            </if>
+            <if test="tableRemark != null and tableRemark != ''">
+                #{tableRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="tableType != null and tableType != ''">
+                #{tableType,jdbcType=VARCHAR},
+            </if>
+            <if test="clazzName != null and clazzName != ''">
+                #{clazzName,jdbcType=VARCHAR},
+            </if>
+            <if test="dbParentId != null and dbParentId != ''">
+                #{dbParentId,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null and parentId != ''">
+                #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="display != null and display != ''">
+                #{display,jdbcType=BIGINT},
+            </if>
+            <if test="dbFlag != null and dbFlag != ''">
+                #{dbFlag,jdbcType=INTEGER},
+            </if>
+            <if test="codeFlag != null and codeFlag != ''">
+                #{codeFlag,jdbcType=INTEGER},
+            </if>
+            <if test="delflag != null and delflag != ''">
+                #{delflag,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createPerson != null and createPerson != ''">
+                #{createPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatePerson != null and updatePerson != ''">
+                #{updatePerson,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 批量新增 -->
+    <insert id="batchSave" parameterType="java.util.List">
+        INSERT INTO table_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ID,
+            UUID,
+            TABLE_NAME,
+            TABLE_REMARK,
+            TABLE_TYPE,
+            CLAZZ_NAME,
+            DB_PARENT_ID,
+            PARENT_ID,
+            DISPLAY,
+            DB_FLAG,
+            CODE_FLAG,
+            DELFLAG,
+            CREATE_DATE,
+            CREATE_PERSON,
+            UPDATE_DATE,
+            UPDATE_PERSON
+        </trim>
+
+        VALUES
+        <foreach collection="list" item="file" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                #{file.id,jdbcType=BIGINT},
+                #{file.uuid,jdbcType=varchar},
+                #{file.tableName,jdbcType=VARCHAR},
+                #{file.tableRemark,jdbcType=VARCHAR},
+                #{file.tableType,jdbcType=VARCHAR},
+                #{file.clazzName,jdbcType=VARCHAR},
+                #{file.dbParentId,jdbcType=BIGINT},
+                #{file.parentId,jdbcType=VARCHAR},
+                #{file.display,jdbcType=BIGINT},
+                #{file.dbFlag,jdbcType=INTEGER},
+                #{file.codeFlag,jdbcType=INTEGER},
+                #{file.delflag,jdbcType=INTEGER},
+                #{file.createDate,jdbcType=TIMESTAMP},
+                #{file.createPerson,jdbcType=VARCHAR},
+                #{file.updateDate,jdbcType=TIMESTAMP},
+                #{file.updatePerson,jdbcType=VARCHAR}
+            </trim>
+
+        </foreach>
+    </insert>
+
+    <!--修改-->
+    <update id="update" parameterType="com.htfate.databasecenter.amain.entity.po.TableInfo">
+        UPDATE table_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="uuid != null and uuid != ''">UUID=#{uuid},</if>
+            <if test="tableName != null and tableName != ''">TABLE_NAME=#{tableName},</if>
+            <if test="tableRemark != null and tableRemark != ''">TABLE_REMARK=#{tableRemark},</if>
+            <if test="tableType != null and tableType != ''">TABLE_TYPE=#{tableType},</if>
+            <if test="clazzName != null and clazzName != ''">CLAZZ_NAME=#{clazzName},</if>
+            <if test="dbParentId != null and dbParentId != ''">DB_PARENT_ID=#{dbParentId},</if>
+            <if test="parentId != null and parentId != ''">PARENT_ID=#{parentId},</if>
+            <if test="display != null and display != ''">DISPLAY=#{display},</if>
+            <if test="dbFlag != null and dbFlag != ''">DB_FLAG=#{dbFlag},</if>
+            <if test="codeFlag != null and codeFlag != ''">CODE_FLAG=#{codeFlag},</if>
+            <if test="delflag != null and delflag != ''">DELFLAG=#{delflag},</if>
+            <if test="createDate != null">CREATE_DATE=#{createDate},</if>
+            <if test="createPerson != null and createPerson != ''">CREATE_PERSON=#{createPerson},</if>
+            <if test="updateDate != null">UPDATE_DATE=#{updateDate},</if>
+            <if test="updatePerson != null and updatePerson != ''">UPDATE_PERSON=#{updatePerson}</if>
+        </trim>
+        WHERE ID=#{id}
+    </update>
+
+    <!-- 批量修改-->
+    <update id="batchUpdate" parameterType="java.util.List">
+        UPDATE table_info
+        SET
+        TABLE_NAME=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.tableName}
+        </foreach>
+        END,
+        UUID=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.uuid}
+        </foreach>
+        END,
+        TABLE_REMARK=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.tableRemark}
+        </foreach>
+        END,
+        TABLE_TYPE=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.tableType}
+        </foreach>
+        END,
+        CLAZZ_NAME=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.clazzName}
+        </foreach>
+        END,
+        PARENT_ID=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.parentId}
+        </foreach>
+        END,
+        DB_PARENT_ID=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.dbParentId}
+        </foreach>
+        END,
+        DISPLAY=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.display}
+        </foreach>
+        END,
+        DB_FLAG=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.dbFlag}
+        </foreach>
+        END,
+        CODE_FLAG=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.codeFlag}
+        </foreach>
+        END,
+        DELFLAG=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.delflag}
+        </foreach>
+        END,
+        CREATE_DATE=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.createDate}
+        </foreach>
+        END,
+        CREATE_PERSON=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.createPerson}
+        </foreach>
+        END,
+        UPDATE_DATE=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.updateDate}
+        </foreach>
+        END,
+        UPDATE_PERSON=
+        CASE
+        ID
+        <foreach collection="list" item="row" separator=" ">
+            WHEN #{row.id} THEN #{row.updatePerson}
+        </foreach>
+        END
+        WHERE ID IN
+        <foreach collection="list" item="row" open="(" separator="," close=")">
+            #{row.id}
+        </foreach>
+    </update>
+
+    <!--管理员 删除 -->
+    <delete id="deleteAdminByIds" parameterType="java.lang.String">
+        DELETE FROM table_info WHERE ID IN
+        <foreach collection="ids.split(',')" item="it" open="(" separator="," close=")">
+            #{it}
+        </foreach>
+    </delete>
+
+    <!-- 删除 -->
+    <update id="deleteByIds" parameterType="java.lang.String">
+        UPDATE table_infoset delflag = 1 WHERE ID IN
+        <foreach collection="ids.split(',')" item="it" open="(" separator="," close=")">
+            #{it}
+        </foreach>
+    </update>
+
+    <!--管理员 条件删除 -->
+    <delete id="deleteAdminByMap" parameterType="java.util.Map">
+        DELETE FROM table_info
+        <include refid="adminFieldWhere"/>
+    </delete>
+
+    <!-- 条件删除 -->
+    <update id="deleteByMap" parameterType="java.util.Map">
+        update table_infoset delflag = 1
+        <include refid="fieldWhere"/>
+    </update>
+
+    <!--管理员  通过id返回对象-->
+    <select id="getAdminObjById" resultMap="BaseResultMap">
+        SELECT * FROM table_info WHERE ID = #{id}
+    </select>
+    <!-- 通过id返回对象-->
+    <select id="getObjById" resultMap="BaseResultMap">
+        SELECT * FROM table_info WHERE ID = #{id}
+        and delflag=0
+    </select>
+    <!--管理员  通过id返回对象-->
+    <select id="getAdminObjByIds" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM table_info WHERE ID IN
+        <foreach collection="ids.split(',')" item="it" open="(" separator="," close=")">
+            #{it}
+        </foreach>
+    </select>
+    <!-- 通过id返回对象-->
+    <select id="getObjByIds" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM table_info WHERE ID IN
+        <foreach collection="ids.split(',')" item="it" open="(" separator="," close=")">
+            #{it}
+        </foreach>
+        and delflag=0
+    </select>
+    <!-- where like 条件 -->
+    <sql id="likeWhere">
+        <where>
+            <if test="id != null and id != ''">
+                and ID LIKE CONCAT('%',#{id},'%')
+            </if>
+            <if test="uuid != null and uuid != ''">
+                and ID LIKE CONCAT('%',#{uuid},'%')
+            </if>
+            <if test="tableName != null and tableName != ''">
+                and TABLE_NAME LIKE CONCAT('%',#{tableName},'%')
+            </if>
+            <if test="tableRemark != null and tableRemark != ''">
+                and TABLE_REMARK LIKE CONCAT('%',#{tableRemark},'%')
+            </if>
+            <if test="tableType != null and tableType != ''">
+                and TABLE_TYPE LIKE CONCAT('%',#{tableType},'%')
+            </if>
+            <if test="clazzName != null and clazzName != ''">
+                and CLAZZ_NAME LIKE CONCAT('%',#{clazzName},'%')
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and PARENT_ID LIKE CONCAT('%',#{parentId},'%')
+            </if>
+            <if test="dbParentId != null and dbParentId != ''">
+                and DB_PARENT_ID LIKE CONCAT('%',#{dbParentId},'%')
+            </if>
+            <if test="display != null and display != ''">
+                and DISPLAY LIKE CONCAT('%',#{display},'%')
+            </if>
+            <if test="dbFlag != null and dbFlag != ''">
+                and DB_FLAG LIKE CONCAT('%',#{dbFlag},'%')
+            </if>
+            <if test="codeFlag != null and codeFlag != ''">
+                and CODE_FLAG LIKE CONCAT('%',#{codeFlag},'%')
+            </if>
+            <if test="delflag != null and delflag != ''">
+                and DELFLAG LIKE CONCAT('%',#{delflag},'%')
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE LIKE CONCAT('%',#{createDate},'%')
+            </if>
+            <if test="createPerson != null and createPerson != ''">
+                and CREATE_PERSON LIKE CONCAT('%',#{createPerson},'%')
+            </if>
+            <if test="updateDate != null">
+                and UPDATE_DATE LIKE CONCAT('%',#{updateDate},'%')
+            </if>
+            <if test="updatePerson != null and updatePerson != ''">
+                and UPDATE_PERSON LIKE CONCAT('%',#{updatePerson},'%')
+            </if>
+            and delflag = 0
+            and delflag = 0
+        </where>
+    </sql>
+
+    <!--管理员 where like 条件 -->
+    <sql id="adminLikeWhere">
+        <where>
+            <if test="id != null and id != ''">
+                and ID LIKE CONCAT('%',#{id},'%')
+            </if>
+            <if test="uuid != null and uuid != ''">
+                and ID LIKE CONCAT('%',#{uuid},'%')
+            </if>
+            <if test="tableName != null and tableName != ''">
+                and TABLE_NAME LIKE CONCAT('%',#{tableName},'%')
+            </if>
+            <if test="tableRemark != null and tableRemark != ''">
+                and TABLE_REMARK LIKE CONCAT('%',#{tableRemark},'%')
+            </if>
+            <if test="tableType != null and tableType != ''">
+                and TABLE_TYPE LIKE CONCAT('%',#{tableType},'%')
+            </if>
+            <if test="clazzName != null and clazzName != ''">
+                and CLAZZ_NAME LIKE CONCAT('%',#{clazzName},'%')
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and PARENT_ID LIKE CONCAT('%',#{parentId},'%')
+            </if>
+            <if test="dbParentId != null and dbParentId != ''">
+                and DB_PARENT_ID LIKE CONCAT('%',#{dbParentId},'%')
+            </if>
+            <if test="display != null and display != ''">
+                and DISPLAY LIKE CONCAT('%',#{display},'%')
+            </if>
+            <if test="dbFlag != null and dbFlag != ''">
+                and DB_FLAG LIKE CONCAT('%',#{dbFlag},'%')
+            </if>
+            <if test="codeFlag != null and codeFlag != ''">
+                and CODE_FLAG LIKE CONCAT('%',#{codeFlag},'%')
+            </if>
+            <if test="delflag != null and delflag != ''">
+                and DELFLAG LIKE CONCAT('%',#{delflag},'%')
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE LIKE CONCAT('%',#{createDate},'%')
+            </if>
+            <if test="createPerson != null and createPerson != ''">
+                and CREATE_PERSON LIKE CONCAT('%',#{createPerson},'%')
+            </if>
+            <if test="updateDate != null">
+                and UPDATE_DATE LIKE CONCAT('%',#{updateDate},'%')
+            </if>
+            <if test="updatePerson != null and updatePerson != ''">
+                and UPDATE_PERSON LIKE CONCAT('%',#{updatePerson},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- where 条件 -->
+    <sql id="fieldWhere">
+        <where>
+            <if test="id != null and id != ''">
+                and ID in
+                <foreach collection="id.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="uuid != null and uuid != ''">
+                and ID in
+                <foreach collection="uuid.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="tableName != null and tableName != ''">
+                and TABLE_NAME in
+                <foreach collection="tableName.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="tableRemark != null and tableRemark != ''">
+                and TABLE_REMARK in
+                <foreach collection="tableRemark.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="tableType != null and tableType != ''">
+                and TABLE_TYPE in
+                <foreach collection="tableType.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="clazzName != null and clazzName != ''">
+                and CLAZZ_NAME in
+                <foreach collection="clazzName.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and PARENT_ID in
+                <foreach collection="parentId.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="dbParentId != null and dbParentId != ''">
+                and PARENT_ID in
+                <foreach collection="dbParentId.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="display != null and display != ''">
+                and DISPLAY in
+                <foreach collection="display.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="dbFlag != null and dbFlag != ''">
+                and DB_FLAG in
+                <foreach collection="dbFlag.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="codeFlag != null and codeFlag != ''">
+                and CODE_FLAG in
+                <foreach collection="codeFlag.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="delflag != null and delflag != ''">
+                and DELFLAG in
+                <foreach collection="delflag.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE in
+                <foreach collection="createDate.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="createPerson != null and createPerson != ''">
+                and CREATE_PERSON in
+                <foreach collection="createPerson.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="updateDate != null">
+                and UPDATE_DATE in
+                <foreach collection="updateDate.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="updatePerson != null and updatePerson != ''">
+                and UPDATE_PERSON in
+                <foreach collection="updatePerson.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            and delflag = 0
+        </where>
+    </sql>
+
+    <!--管理员 where 条件 -->
+    <sql id="adminFieldWhere">
+        <where>
+            <if test="id != null and id != ''">
+                and ID in
+                <foreach collection="id.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="uuid != null and uuid != ''">
+                and ID in
+                <foreach collection="uuid.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="tableName != null and tableName != ''">
+                and TABLE_NAME in
+                <foreach collection="tableName.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="tableRemark != null and tableRemark != ''">
+                and TABLE_REMARK in
+                <foreach collection="tableRemark.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="tableType != null and tableType != ''">
+                and TABLE_TYPE in
+                <foreach collection="tableType.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="clazzName != null and clazzName != ''">
+                and CLAZZ_NAME in
+                <foreach collection="clazzName.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and PARENT_ID in
+                <foreach collection="parentId.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="dbParentId != null and dbParentId != ''">
+                and PARENT_ID in
+                <foreach collection="dbParentId.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="display != null and display != ''">
+                and DISPLAY in
+                <foreach collection="display.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="dbFlag != null and dbFlag != ''">
+                and DB_FLAG in
+                <foreach collection="dbFlag.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="codeFlag != null and codeFlag != ''">
+                and CODE_FLAG in
+                <foreach collection="codeFlag.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="delflag != null and delflag != ''">
+                and DELFLAG in
+                <foreach collection="delflag.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="createDate != null">
+                and CREATE_DATE in
+                <foreach collection="createDate.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="createPerson != null and createPerson != ''">
+                and CREATE_PERSON in
+                <foreach collection="createPerson.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="updateDate != null">
+                and UPDATE_DATE in
+                <foreach collection="updateDate.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+            <if test="updatePerson != null and updatePerson != ''">
+                and UPDATE_PERSON in
+                <foreach collection="updatePerson.split(',')" item="it" open="(" separator="," close=")">
+                    #{it}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+
+</mapper>

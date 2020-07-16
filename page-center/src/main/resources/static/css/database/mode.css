@@ -1,0 +1,154 @@
+#showLoading #bgColor {
+
+    animation: myfirst 10s;
+    -moz-animation: myfirst 10s; /* Firefox */
+    -webkit-animation: myfirst 10s infinite; /* Safari and Chrome */
+    -o-animation: myfirst 10s; /* Opera */
+}
+
+@keyframes myfirst {
+    0% {
+        color: red;
+    }
+    10% {
+        color: orange;
+    }
+    20% {
+        color: yellow;
+    }
+    30% {
+        color: greenyellow;
+    }
+    40% {
+        color: blue;
+    }
+    50% {
+        color: #7978ff;
+    }
+    60% {
+        color: mediumpurple;
+    }
+    70% {
+        color: #ff2fd8;
+    }
+    80% {
+        color: darkgray;
+    }
+    90% {
+        color: blue;
+    }
+    100% {
+        color: green;
+    }
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+    0% {
+        color: red;
+    }
+    10% {
+        color: orange;
+    }
+    20% {
+        color: yellow;
+    }
+    30% {
+        color: greenyellow;
+    }
+    40% {
+        color: blue;
+    }
+    50% {
+        color: #7978ff;
+    }
+    60% {
+        color: mediumpurple;
+    }
+    70% {
+        color: #ff2fd8;
+    }
+    80% {
+        color: darkgray;
+    }
+    90% {
+        color: blue;
+    }
+    100% {
+        color: green;
+    }
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+    0% {
+        color: red;
+    }
+    10% {
+        color: orange;
+    }
+    20% {
+        color: yellow;
+    }
+    30% {
+        color: greenyellow;
+    }
+    40% {
+        color: blue;
+    }
+    50% {
+        color: #7978ff;
+    }
+    60% {
+        color: mediumpurple;
+    }
+    70% {
+        color: #ff2fd8;
+    }
+    80% {
+        color: darkgray;
+    }
+    90% {
+        color: blue;
+    }
+    100% {
+        color: green;
+    }
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+    0% {
+        color: red;
+    }
+    10% {
+        color: orange;
+    }
+    20% {
+        color: yellow;
+    }
+    30% {
+        color: greenyellow;
+    }
+    40% {
+        color: blue;
+    }
+    50% {
+        color: #7978ff;
+    }
+    60% {
+        color: mediumpurple;
+    }
+    70% {
+        color: #ff2fd8;
+    }
+    80% {
+        color: darkgray;
+    }
+    90% {
+        color: blue;
+    }
+    100% {
+        color: green;
+    }
+}

@@ -1,0 +1,21 @@
+custom:
+  eureka-center-url: http://localhost:52000/eureka
+  rabbitmq-url: 127.0.0.1
+#  rabbitmq-url: 192.168.1.247
+server:
+  port: 52004
+spring:
+  application:
+    name: rabbitmq
+  rabbitmq:
+    host: ${custom.rabbitmq-url}
+    port: 5672
+    username: admin
+#    username: sd
+#    password: a123456
+    password: admin
+    virtual-host: /
+eureka:
+  client:
+    service-url:
+      defaultZone: ${custom.eureka-center-url}

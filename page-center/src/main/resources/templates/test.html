@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" sizes="any" href="../static/images/icon/yht_128.ico">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/third/bootstrap-4.4.1/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/fontawesome/all.min.css">
+</head>
+<body>
+<div id="app">
+
+    <h3>hello socket</h3>
+    <p>【userId】：<div><input id="userId" name="userId" type="text" value="10"></div>
+    <p>【toUserId】：<div><input id="toUserId" name="toUserId" type="text" value="20"></div>
+    <p>【toUserId】：<div><input id="contentText" name="contentText" type="text" value="hello websocket"></div>
+    <p>操作:<div><a onclick="openSocket()">开启socket</a></div>
+    <p>【操作】：<div><a onclick="sendMessage()">发送消息</a></div>
+</div>
+
+<script src="../static/third/wangeditor/wangEditor.min.js"></script>
+<script src="../static/third/jquery/jquery-3.4.1.min.js"></script>
+<script src="../static/third/bootstrap-4.4.1/popper.min.js"></script>
+<script src="../static/third/bootstrap-4.4.1/bootstrap.min.js"></script>
+<script src="../static/third/vue/vue.min.js"></script>
+<script src="../static/third/common/YHTUtils.js"></script>
+<script src="../static/third/common/common.js"></script>
+
+<script>
+
+    /*--------------------------------------------------------------*/
+    var socket;
+    function openSocket() {
+        if(typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        }else{
+            console.log("您的浏览器支持WebSocket");
+            //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
+            var userId = document.getElementById('userId').value;
+            // var socketUrl="ws://127.0.0.1:22599/webSocket/"+userId;
+            var socketUrl="wss://pureland.goho.co/app/websocket/"+userId;
+            console.log(socketUrl);
+            if(socket!=null){
+                socket.close();
+                socket=null;
+            }
+            socket = new WebSocket(socketUrl);
+            //打开事件
+            socket.onopen = function() {
+                console.log("websocket已打开");
+                //socket.send("这是来自客户端的消息" + location.href + new Date());
+            };
+            //获得消息事件
+            socket.onmessage = function(msg) {
+                var serverMsg = "收到服务端信息：" + msg.data;
+                console.log(serverMsg);
+                //发现消息进入    开始处理前端触发逻辑
+            };
+            //关闭事件
+            socket.onclose = function() {
+                console.log("websocket已关闭");
+            };
+            //发生了错误事件
+            socket.onerror = function() {
+                console.log("websocket发生了错误");
+            }
+        }
+    }
+    function sendMessage() {
+        if(typeof(WebSocket) == "undefined") {
+            console.log("您的浏览器不支持WebSocket");
+        }else {
+            // console.log("您的浏览器支持WebSocket");
+            var toUserId = document.getElementById('toUserId').value;
+            var contentText = document.getElementById('contentText').value;
+            var msg = '{"toUserId":"'+toUserId+'","contentText":"'+contentText+'"}';
+            console.log(msg);
+            socket.send(msg);
+        }
+    }
+    /*--------------------------------------------------------------------------*/
+
+    function uploadFileO() {
+        var fileO = document.getElementById('uploadFile').files;
+        if (fileO.length > 0) {
+            var formDataO = new FormData();
+            formDataO.append("file", fileO[0]);
+            $.ajax({
+                url: 'http://cep.cz029.com:52001/upload-center/upload/weixin'
+                ,type: 'post'
+                ,dataType:'json'
+                ,data:formDataO
+                ,processData: false
+                ,contentType: false
+                ,success: function (res) {
+                    console.log(res);
+                }
+            })
+        } else {
+            console.log('no file');
+        }
+    }
+    var app = new Vue({
+        el: '#app'
+        , data: {
+            text: null
+            ,bbb: false
+            ,arr:[]
+            ,cancelOrLogin:'50'
+            ,cancelOrLoginTip: ''
+            ,userInfo:{xxx:''}
+        }
+        , methods:{
+            change: function () {
+                console.log(this.cancelOrLogin)
+            }
+        }
+        , watch: {
+            text: function (val) {
+                console.log(val);
+            }
+            , cancelOrLogin: function (val) {
+                var that = this;
+                if (val >= 90) {
+                    that.cancelOrLoginTip = '登录';
+                } else if (val <= 10) {
+                    that.cancelOrLoginTip = '取消';
+                } else {
+                    that.cancelOrLoginTip = '';
+                }
+            }
+            ,"userInfo.xxx": function (val) {
+                console.log(val);
+            }
+        }
+    });
+    $(function () {
+
+    });
+
+
+</script>
+</body>
+</html>

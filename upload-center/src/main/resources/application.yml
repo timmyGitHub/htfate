@@ -1,0 +1,26 @@
+custom:
+  eureka-center-url: http://localhost:52000/eureka
+  upload-path: /Users/timmy/Documents/upload/
+  download-path: /Users/timmy/Documents/
+#  download-path: E:\
+#  upload-path: E:\upload\
+  resource-path: /upload/**
+#  获取文件的时候是否使用路由
+  isZuul: true
+#  isZuul: true
+server:
+  port: 52006
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${custom.eureka-center-url}
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10000MB
+      max-request-size: 20000MB
+  application:
+    name: upload
+
+

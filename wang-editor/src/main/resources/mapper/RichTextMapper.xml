@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htfate.wangeditor.dao.RichTextMapper">
+
+    <select id="listPaste" resultType="com.htfate.wangeditor.entity.dto.PasteContext">
+        SELECT
+	`context`,
+	`title`,
+	`type`,
+	date_format( create_date, '%Y-%m-%d %H:%i:%s' ) createDate
+FROM
+	rich_text
+WHERE
+	delflag = 0 AND type in(1,2)
+	AND create_person = #{userId}
+	 ORDER BY create_date DESC
+	LIMIT #{pageIndex},#{pageSize}
+    </select>
+
+</mapper>
